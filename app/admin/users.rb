@@ -1,5 +1,6 @@
 ActiveAdmin.register User do
-  permit_params :name, :email, :password, :password_confirmation, :usertype
+  permit_params :name, :email, :password, :password_confirmation, :usertype, :project_ids=>[]
+  # permit_params project_ids: []
 
   index do
     selectable_column
@@ -7,9 +8,7 @@ ActiveAdmin.register User do
     column :name
     column :email
     column :usertype
-    column :current_sign_in_at
-    column :sign_in_count
-    column :created_at
+    column :projects
     actions
   end
 
@@ -27,6 +26,16 @@ ActiveAdmin.register User do
       f.input :usertype, :as => :select, collection: (['manager', 'developer', 'qa'])
     end
     f.actions
+  end
+
+
+  show do
+    attributes_table do 
+      row :name 
+      row :email
+      row :usertype
+      row :projects
+    end
   end
 
 end
