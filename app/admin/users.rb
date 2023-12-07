@@ -1,5 +1,5 @@
 ActiveAdmin.register User do
-  permit_params :name, :email, :password, :password_confirmation, :usertype, :project_ids=>[]
+  permit_params :name, :email, :password, :password_confirmation, :usertype, :project_ids=>[], :bug_ids=>[]
   # permit_params project_ids: []
 
   index do
@@ -9,6 +9,7 @@ ActiveAdmin.register User do
     column :email
     column :usertype
     column :projects
+    column :bugs
     actions
   end
 
@@ -35,6 +36,7 @@ ActiveAdmin.register User do
       row :email
       row :usertype
       row :projects
+      row :bugs
     end
   end
 
