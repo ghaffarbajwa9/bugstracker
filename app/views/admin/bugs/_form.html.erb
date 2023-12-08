@@ -1,0 +1,15 @@
+<%= semantic_form_for [:admin, project, Bug.new] do |f| %>
+  <%= f.inputs 'Bug Details' do %>
+    <%= f.input :user_id, as: :hidden, input_html: { value: current_user.id, disabled: true }, label: "Created By"%>
+    <%= f.input :project_id, as: :hidden, input_html:{value: project.id, disabled: true } %>
+    <%= f.input :title %>
+    <%= f.input :deadline, as: :datetime_picker %>
+    <%= f.input :screenshot, as: :file %>
+    <%= f.input :bugtype, as: :select, collection: ['Feature', 'Bug'], input_html: { id: 'type_select' } %>
+    <%= f.input :status, as: :select, collection: [], input_html: { id: 'status_select' } %>
+  <% end %>
+
+  <%= f.actions do %>
+    <%= f.action :submit %>
+  <% end %>
+<% end %>
