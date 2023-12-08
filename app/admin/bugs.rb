@@ -25,7 +25,9 @@ ActiveAdmin.register Bug do
       row :project 
       row :title 
       row :deadline
-      row :screenshot
+      row :screenshot do |model|
+        image_tag(model.screenshot.url, height: '50')
+      end
       row :bugtype 
       row :status
       row :users, label: "Associate To"

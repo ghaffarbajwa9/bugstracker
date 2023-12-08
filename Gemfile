@@ -14,6 +14,8 @@ gem 'cancancan'
 gem 'draper'
 gem 'pundit'
 gem 'sass-rails'
+#file upload
+gem 'carrierwave'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
