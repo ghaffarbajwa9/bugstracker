@@ -1,9 +1,10 @@
 ActiveAdmin.register Project do
-  permit_params :title, :description, :user_ids=>[], :bug_id=>[], bugs_attributes: [:title, :deadline, :screenshot, :bugtype, :status, :project_id, :user_id, :user_ids=>[]]
+  permit_params :users_id, :user_id, :title, :description, :user_ids=>[], :bug_id=>[], bugs_attributes: [:title, :deadline, :screenshot, :bugtype, :status, :project_id, :user_id, :user_ids=>[]]
 
   index do
     selectable_column
     id_column
+    column :users_id, label: "Created By"
     column :title
     column :description
     column :users
@@ -13,6 +14,7 @@ ActiveAdmin.register Project do
 
   show do
     attributes_table do 
+      row :users_id, label: "Created By"
       row :title 
       row :description
       row :users
@@ -23,11 +25,16 @@ ActiveAdmin.register Project do
     end
     panel 'Bugs' do
       table_for project.bugs do
-      
-        column :user, label: "Created By"
+        column :user, label: "Reported By"
         column :title 
         column :deadline
-        column :screenshot 
+        column :screenshot do |model|
+          if model.screenshot.present?
+            image_tag(model.screenshot.url, height: '50')
+          else
+            content_tag(:span, "No screenshot available")
+          end
+        end
         column :bugtype
         column :status
         column :users, label: "Associate To" 
@@ -37,30 +44,24 @@ ActiveAdmin.register Project do
 
   filter :name
   filter :created_at
-  collected_user = User.all 
+  collected_user = User.all.where(usertype:['qa','developer']) 
 
   form do |f|
     f.inputs do
+      f.input :users_id, as: :hidden, input_html: { value: current_user.id }, label: "Created By"
       f.input :title
       f.input :description
-      f.input :user_ids, as: :check_boxes,  collection: collected_user
-      # f.inputs do
-      #   f.has_many :bugs, 
-      #             new_record: "Add Bug", 
-      #             remove_record: "Remove Bug" do |b|
-      #       b.input :user_id, as: :hidden, input_html: { value: current_user.id }, label: "Created By"
-      #       b.input :project_id, input_html: { value: project.id }
-      #       # b.input :project_id,as: :hidden, input_html: { value: project.id }
-      #       b.input :title
-      #       b.input :deadline, as: :datetime_picker
-      #       b.input :screenshot, as: :file
-      #       b.input :bugtype, as: :select, collection: ['Feature', 'Bug'], input_html: { id: 'type_select' }
-      #       b.input :status, as: :select, collection: [], input_html: { id: 'status_select' }
-      #       b.input :user_ids, as: :select, collection: User.all, label: "Assigned To"
-      #   end
-      # end
+      f.input :user_ids, as: :check_boxes, collection: collected_user do |user|
+        "#{user.name} (#{user.usertype})"
+      end
     end
     f.actions
   end
-  
+  controller do
+    def scoped_collection
+      # Filter the collection based on the current user's ID
+      @projects = Project.joins(:project_assignments)
+      .where('project_assignments.user_id = ? OR projects.id IN (SELECT project_id FROM project_assignments WHERE user_id = ?)', current_user.id, current_user.id)
+    end
+  end
 end

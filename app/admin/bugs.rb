@@ -6,7 +6,7 @@ ActiveAdmin.register Bug do
   
   form do |f| 
     f.inputs 'Bug Details' do
-      f.input :user_id, as: :hidden, input_html: { value: current_user.id }, label: "Created By"
+      f.input :user_id, input_html: { value: current_user.id }, label: "Reported By"
       f.input :project_id, as: :select, collection: Project.all
       # f.input :project_id,as: :hidden, input_html: { value: project.id }
       f.input :title
@@ -21,12 +21,16 @@ ActiveAdmin.register Bug do
 
   show do 
     attributes_table do
-      row :user, label: "created by"
+      row :user, label: "Reported by"
       row :project 
       row :title 
       row :deadline
       row :screenshot do |model|
-        image_tag(model.screenshot.url, height: '50')
+        if model.screenshot.present?
+          image_tag(model.screenshot.url, height: '50')
+        else
+          content_tag(:span, "No screenshot available")
+        end
       end
       row :bugtype 
       row :status

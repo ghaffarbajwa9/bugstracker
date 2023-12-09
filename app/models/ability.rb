@@ -5,12 +5,6 @@ class Ability
 
   def initialize(user)
     user ||= User.new
-    # can :read, Project
-    # can :read, Bug
-    # can :manage, Project if user.qa?
-    # can :create, Project if user.manager?
-    # can :update, Bug if user.developer?
-
 
     if user.manager?
       can :manage, User
