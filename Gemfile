@@ -13,6 +13,7 @@ gem 'devise'
 gem 'cancancan'
 gem 'draper'
 gem 'pundit'
+
 gem 'sass-rails'
 #file upload
 gem 'carrierwave'

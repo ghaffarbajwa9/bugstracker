@@ -23,7 +23,7 @@ ActiveAdmin.register Project do
     end
     panel 'Bugs' do
       table_for project.bugs do
-        # column :
+      
         column :user, label: "Created By"
         column :title 
         column :deadline

@@ -7,6 +7,9 @@ ActiveAdmin.setup do |config|
   config.site_title = "Bugstracker"
   config.register_javascript 'active_admin_bug.js'
 
+  config.authorization_adapter = ActiveAdmin::CanCanAdapter
+  
+  
   # Set the link url for the title. For example, to take
   # users to your main site. Defaults to no link.
   #
@@ -32,37 +35,37 @@ ActiveAdmin.setup do |config|
   #
   # eg:
   #   config.load_paths = [
-  #     File.join(Rails.root, 'app', 'admin'),
-  #     File.join(Rails.root, 'app', 'cashier')
-  #   ]
-
-  # == Default Namespace
-  #
-  # Set the default namespace each administration resource
-  # will be added to.
-  #
-  # eg:
-  #   config.default_namespace = :hello_world
-  #
-  # This will create resources in the HelloWorld module and
-  # will namespace routes to /hello_world/*
-  #
-  # To set no namespace by default, use:
-  #   config.default_namespace = false
-  #
-  # Default:
-  # config.default_namespace = :admin
-  #
-  # You can customize the settings for each namespace by using
-  # a namespace block. For example, to change the site title
-  # within a namespace:
-  #
-  #   config.namespace :admin do |admin|
-  #     admin.site_title = "Custom Admin Title"
-  #   end
-  #
-  # This will ONLY change the title for the admin section. Other
-  # namespaces will continue to use the main "site_title" configuration.
+    #     File.join(Rails.root, 'app', 'admin'),
+    #     File.join(Rails.root, 'app', 'cashier')
+    #   ]
+    
+    # == Default Namespace
+    #
+    # Set the default namespace each administration resource
+    # will be added to.
+    #
+    # eg:
+    #   config.default_namespace = :hello_world
+    #
+    # This will create resources in the HelloWorld module and
+    # will namespace routes to /hello_world/*
+    #
+    # To set no namespace by default, use:
+    #   config.default_namespace = false
+    #
+    # Default:
+    # config.default_namespace = :admin
+    #
+    # You can customize the settings for each namespace by using
+    # a namespace block. For example, to change the site title
+    # within a namespace:
+    #
+    #   config.namespace :admin do |admin|
+    #     admin.site_title = "Custom Admin Title"
+    #   end
+    #
+    # This will ONLY change the title for the admin section. Other
+    # namespaces will continue to use the main "site_title" configuration.
 
   # == User Authentication
   #
@@ -73,7 +76,7 @@ ActiveAdmin.setup do |config|
   # This setting changes the method which Active Admin calls
   # within the application controller.
   config.authentication_method = :authenticate_user!
-
+  
   # == User Authorization
   #
   # Active Admin will automatically call an authorization
@@ -93,14 +96,14 @@ ActiveAdmin.setup do |config|
   # config.pundit_policy_namespace = :admin
 
   # You can customize your CanCan Ability class name here.
-  # config.cancan_ability_class = "Ability"
+  config.cancan_ability_class = "Ability"
 
   # You can specify a method to be called on unauthorized access.
   # This is necessary in order to prevent a redirect loop which happens
   # because, by default, user gets redirected to Dashboard. If user
   # doesn't have access to Dashboard, he'll end up in a redirect loop.
   # Method provided here should be defined in application_controller.rb.
-  # config.on_unauthorized_access = :access_denied
+  config.on_unauthorized_access = :access_denied
 
   # == Current User
   #
@@ -135,7 +138,7 @@ ActiveAdmin.setup do |config|
   # roots for each namespace.
   #
   # Default:
-  # config.root_to = 'dashboard#index'
+  config.root_to = 'projects#index'
 
   # == Admin Comments
   #

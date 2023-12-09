@@ -10,4 +10,13 @@ class User < ApplicationRecord
   has_many :bug_users, dependent: :destroy
   has_many :bugs, through: :bug_users
   
+  def manager?
+    usertype=='manager'
+  end
+  def developer?
+    usertype == 'developer'
+  end
+  def qa?
+    usertype == 'qa'
+  end
 end
