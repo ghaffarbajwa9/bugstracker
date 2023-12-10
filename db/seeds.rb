@@ -10,6 +10,7 @@
 # User.create!(name: 'abdul', email: 'manager@mail.com', password: '11223344', password_confirmation: '11223344', usertype: 'manager') if Rails.env.development?
 
 User.create!([
+{name: "abdul",email: "abdul@mail.com", password: '11223344', password_confirmation: '11223344', usertype: 'manager'},
 {name: "awais",email: "awais@mail.com", password: '11223344', password_confirmation: '11223344', usertype: 'developer'},
 {name: "naveed",email: "naveed@mail.com", password: '11223344', password_confirmation: '11223344', usertype: 'developer'},
 {name: "toseef",email: "toseef@mail.com", password: '11223344', password_confirmation: '11223344', usertype: 'developer'},

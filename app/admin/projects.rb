@@ -60,8 +60,12 @@ ActiveAdmin.register Project do
   controller do
     def scoped_collection
       # Filter the collection based on the current user's ID
-      @projects = Project.joins(:project_assignments)
-      .where('project_assignments.user_id = ? OR projects.id IN (SELECT project_id FROM project_assignments WHERE user_id = ?)', current_user.id, current_user.id)
+      if current_user.usertype == 'manager'
+        @projects = Project.all.where('projects.users_id = ?', current_user.id)
+      else
+        @projects = Project.joins(:project_assignments)
+         .where('project_assignments.user_id = ? OR projects.id IN (SELECT project_id FROM project_assignments WHERE users_id = ?)', current_user.id, current_user.id)
+      end
     end
   end
 end
