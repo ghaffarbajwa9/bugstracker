@@ -20,11 +20,15 @@ ActiveAdmin.register Project do
       row :users
       row :bugs
     end
-    panel 'Add Bug' do
-      render partial: 'admin/bugs/form', locals: {project: project} 
+    if current_user.usertype !='developer'
+      panel 'Add Bug' do
+
+        render partial: 'admin/bugs/form', locals: {project: project} 
+      end
     end
     panel 'Bugs' do
       table_for project.bugs do
+        # column :id
         column :user, label: "Reported By"
         column :title 
         column :deadline
@@ -37,7 +41,7 @@ ActiveAdmin.register Project do
         end
         column :bugtype
         column :status
-        column :users, label: "Associate To" 
+        column :users, label: "Associate To"
       end 
     end
   end 
@@ -51,12 +55,11 @@ ActiveAdmin.register Project do
       f.input :users_id, as: :hidden, input_html: { value: current_user.id }, label: "Created By"
       f.input :title
       f.input :description
-      f.input :user_ids, as: :check_boxes, collection: collected_user do |user|
-        "#{user.name} (#{user.usertype})"
-      end
+      f.input :user_ids, as: :check_boxes, collection: collected_user
     end
     f.actions
   end
+  
   controller do
     def scoped_collection
       # Filter the collection based on the current user's ID

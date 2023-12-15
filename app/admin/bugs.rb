@@ -14,14 +14,14 @@ ActiveAdmin.register Bug do
       f.input :screenshot, as: :file
       f.input :bugtype, as: :select, collection: ['Feature', 'Bug'], input_html: { id: 'type_select' }
       f.input :status, as: :select, collection: [], input_html: { id: 'status_select' }
-      f.input :user_ids, as: :check_boxes, collection: User.all.where(usertype: 'developer'), label: "Associate To"
+      f.input :user_ids, as: :check_boxes, collection: User.all.where(usertype: 'developer'), label: "Developers"
     end
     f.actions
   end
 
   show do 
     attributes_table do
-      row :user, label: "Reported by"
+      row :user, label: "Reported By"
       row :project 
       row :title 
       row :deadline
@@ -34,7 +34,7 @@ ActiveAdmin.register Bug do
       end
       row :bugtype 
       row :status
-      row :users, label: "Associate To"
+      row :users
     end
   end
   
